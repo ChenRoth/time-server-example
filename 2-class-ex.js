@@ -18,6 +18,8 @@ const PORT = 5000;
 
 const timestamps = [];
 
+const jsons = JSON.stringify;
+
 const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Headers', '*');
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,7 +38,7 @@ const server = http.createServer((req, res) => {
 
         default: {
             res.writeHead(404);
-            res.write('i dont know what to do');
+            res.write(jsons('i dont know what to do'));
             break;
         }
     }
@@ -47,18 +49,18 @@ function timeApi(req, res) {
     switch (req.method) {
         case 'GET': {
             res.writeHead(200);
-            res.write(JSON.stringify(new Date()));
+            res.write(jsons(new Date()));
             return;
         }
         case 'POST': {
             res.writeHead(200);
             timestamps.push(new Date());
-            res.write('time added');
+            res.write(jsons('time added'));
             return;
         }
         default: {
             res.writeHead(405);
-            res.write(`time api cant handle ${req.method}`);
+            res.write(jsons(`time api cant handle ${req.method}`));
             return;
         }
     }
@@ -67,12 +69,12 @@ function timeApi(req, res) {
 function historyApi(req, res) {
     switch (req.method) {
         case 'GET': {
-            res.write(JSON.stringify(timestamps));
+            res.write(jsons(timestamps));
             return;
         }
         default: {
             res.writeHead(405);
-            res.write(`history api cant handle ${req.method}`);
+            res.write(jsons(`history api cant handle ${req.method}`));
             return;
         }
     }
