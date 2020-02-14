@@ -27,6 +27,11 @@ const server = http.createServer((req, res) => {
             break;
         }
 
+        case '/history': {
+            historyApi(req, res);
+            break;
+        }
+
         default: {
             res.writeHead(404);
             res.write('i dont know what to do');
@@ -52,6 +57,20 @@ function timeApi(req, res) {
         default: {
             res.writeHead(405);
             res.write(`time api cant handle ${req.method}`);
+            return;
+        }
+    }
+}
+
+function historyApi(req, res) {
+    switch (req.method) {
+        case 'GET': {
+            res.write(JSON.stringify(timestamps));
+            return;
+        }
+        default: {
+            res.writeHead(405);
+            res.write(`history api cant handle ${req.method}`);
             return;
         }
     }
