@@ -16,6 +16,8 @@ create a server that:
 const http = require('http');
 const PORT = 5000;
 
+const timestamps = [];
+
 const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
@@ -39,6 +41,12 @@ function timeApi(req, res) {
         case 'GET': {
             res.writeHead(200);
             res.write(new Date().toString());
+            return;
+        }
+        case 'POST': {
+            res.writeHead(200);
+            timestamps.push(new Date());
+            res.write('time added');
             return;
         }
         default: {
