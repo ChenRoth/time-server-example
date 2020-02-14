@@ -17,10 +17,37 @@ const http = require('http');
 const PORT = 5000;
 
 const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write('hello');
+    res.setHeader('Content-Type', 'application/json');
+
+    switch (req.url.toLowerCase()) {
+        case '/time': {
+            timeApi(req, res);
+            break;
+        }
+
+        default: {
+            res.writeHead(404);
+            res.write('i dont know what to do');
+            break;
+        }
+    }
     res.end();
 });
+
+function timeApi(req, res) {
+    switch (req.method) {
+        case 'GET': {
+            res.writeHead(200);
+            res.write(new Date().toString());
+            return;
+        }
+        default: {
+            res.writeHead(405);
+            res.write(`time api cant handle ${req.method}`);
+            return;
+        }
+    }
+}
 
 server.listen(PORT, () => {
     console.log(`server is up at ${PORT}`);
